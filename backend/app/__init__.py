@@ -1,0 +1,1 @@
+"""MedRisk backend application."""

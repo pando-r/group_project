@@ -1,0 +1,59 @@
+[project]
+name = "medrisk-backend"
+version = "0.1.0"
+description = "MedRisk specialty risk stratification demo backend"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30.0",
+    "aiosqlite>=0.20.0",
+    "alembic>=1.14.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    "pyjwt>=2.10.0",
+    "passlib[argon2]>=1.7.4",
+    "argon2-cffi>=23.1.0",
+    "structlog>=24.4.0",
+    "httpx>=0.28.0",
+    "langgraph>=1.0.0,<2",
+    "langgraph-checkpoint-sqlite>=3.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# Chinese clinical text intentionally uses full-width punctuation.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"app/api/**/*.py" = ["B008"]
+"app/rules/*.py" = ["E501"]
+"app/db/seed.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
